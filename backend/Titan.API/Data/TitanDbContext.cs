@@ -13,5 +13,14 @@ namespace Titan.API.Data
         public DbSet<Project> Projects { get; set; }
 
         public DbSet<ProjectEmployee> ProjectEmployees { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ProjectEmployee>()
+            .HasKey(pe => new { pe.ProjectId, pe.EmployeeId });
+
+        }
     }
 }

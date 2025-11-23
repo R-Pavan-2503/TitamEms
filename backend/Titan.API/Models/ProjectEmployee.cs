@@ -8,4 +8,6 @@ public class ProjectEmployee
     public int EmployeeId { get; set; }
 
     public User? Employee { get; set; }
+
+    public DateTime AssignedOn { get; set; } = DateTime.UtcNow;
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Titan.API.Data;
@@ -11,9 +12,11 @@ using Titan.API.Data;
 namespace Titan.API.Migrations
 {
     [DbContext(typeof(TitanDbContext))]
-    partial class TitanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251123134400_AddProjectEmployees")]
+    partial class AddProjectEmployees
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,9 +55,6 @@ namespace Titan.API.Migrations
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime>("AssignedOn")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("ProjectId", "EmployeeId");
 

@@ -1,0 +1,238 @@
+# =========================
+# Monorepo - root .gitignore
+# .NET backend + React (Vite) frontend + Tailwind
+# Target: production-ready, keep important tracked files (locks, migrations), ignore local secrets & build artifacts
+# =========================
+
+# -------------------------
+# OS / general
+# -------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~.nib
+
+# -------------------------
+# Logs
+# -------------------------
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# -------------------------
+# Node / Frontend
+# -------------------------
+# dependencies
+node_modules/
+# build outputs
+dist/
+build/
+out/
+# Vite cache / temp
+.vite/
+.cache/
+# parcel / bundlers
+.parcel-cache/
+# Storybook
+storybook-static/
+# local env files (do not commit secrets)
+.env
+.env.*
+# local node repl history
+.node_repl_history
+
+# Keep lockfiles (commit them):
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# -------------------------
+# .NET / C#
+# -------------------------
+# Build Folders
+bin/
+obj/
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Visual Studio
+.vs/
+*.vcxproj.user
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code workspace settings (ignore local settings)
+.vscode/
+# If you DO want to track recommended workspace settings, remove above line or add .vscode/settings.json specifically
+
+# NuGet
+*.nupkg
+# The packages folder can be ignored because packages restored from NuGet
+packages/
+# NuGet local cache
+.nuget/
+
+# Rider caches
+.idea/
+.idea_modules/
+
+# Dotnet user secrets - do NOT commit
+secrets.json
+*.UserSecrets
+
+# Publish / apphost / runtime artifacts
+*.exe
+*.dll
+*.pdb
+*.app
+*.apk
+*.aar
+
+# EF Core migrations? Usually you WANT to commit them; do NOT ignore /Migrations/** unless you intentionally want them private
+
+# -------------------------
+# Database / Local DB
+# -------------------------
+# Common DB files (SQLite, etc.)
+*.db
+*.sqlite
+*.sqlite3
+
+# Supabase local / CLI caches
+.supabase/
+supabase/.temp/
+supabase/.cache/
+
+# Note: DO NOT ignore migration scripts or SQL schema files you wish to version — place them in e.g. /db/migrations and keep tracked.
+
+# -------------------------
+# Docker
+# -------------------------
+# Docker compose overrides and build dirs often local, ignore caches
+docker-compose.override.yml
+**/docker-compose.override.yml
+docker-compose.*.local.yml
+# Docker build context artifacts
+**/.docker/
+**/tmp_docker_build/
+
+# Docker images / volumes not files in repo; ignore local envs
+.env.docker
+docker-compose.local.yml
+
+# -------------------------
+# CI / Build output / Coverage
+# -------------------------
+# test coverage
+coverage/
+coverage.*
+*.lcov
+
+# dotnet test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Azure pipelines
+.azure-pipelines/
+
+# GitHub Actions runner artifacts
+.github/actions/runner/_work/
+
+# -------------------------
+# IDE / Editor helpers
+# -------------------------
+# JetBrains
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+.history/
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# -------------------------
+# Secrets & keys
+# -------------------------
+# Generic
+*.pem
+*.key
+*.crt
+id_rsa
+id_rsa.pub
+__pycache__/
+
+# AWS / Google Cloud local creds
+.aws/
+.gcloud/
+
+# Keep serverless output/private creds out
+.serverless/
+
+# -------------------------
+# Build systems / Tooling
+# -------------------------
+# pnpm / turborepo / nx / lerna
+.pnpm-store/
+.pnpm-debug.log
+node-releases/
+.turbo/
+.nx/
+.lerna/
+
+# Rust / Python / Java extras (if show up in repo)
+target/
+venv/
+.envrc
+
+# -------------------------
+# Misc
+# -------------------------
+# Generated swagger/openapi clients (if you generate them locally and don't want them committed)
+# e.g. /src/Client/Generated/*
+# Add explicit ignores only if you generate locally and don't commit
+
+# Composer / PHP
+/vendor/
+
+# Mac Finder attributes
+.AppleDouble
+.LSOverride
+
+# -------------------------
+# Allowlist (examples)
+# -------------------------
+# If you want to keep the Migrations folder tracked (recommended), don't ignore it:
+# !/src/**/Migrations/
+# If you want to keep a specific .env.example or env.template file tracked, ensure it's not ignored:
+# !.env.example
+# !.env.template
+
+# -------------------------
+# End
+# -------------------------

@@ -1,0 +1,16 @@
+namespace Titan.API.Modles
+{
+    public class User
+    {
+        public int Id { get; set; }
+        public string Email { get; set; } = default;
+
+        public string PasswordHash { get; set; }
+
+        public string? Username { get; set; }
+
+        public string Role { get; set; } = default!;
+
+        public DateTime CreatedOn { get; set; }
+    }
+}

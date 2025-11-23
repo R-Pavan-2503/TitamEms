@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Titan.API.DTOs;
 using Titan.API.Services;
+using System.Security.Claims;
+
 
 namespace Titan.API.Controllers;
 
@@ -46,4 +48,23 @@ public class ProjectsController : ControllerBase
 
         return Ok("Employee assigned successfully");
     }
+
+
+    [HttpGet("my-projects")]
+    public async Task<IActionResult> GetMyProjects()
+    {
+        
+        var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userIdString))
+            return Unauthorized("User ID not found in token.");
+
+        int userId = int.Parse(userIdString);
+
+        
+        var result = await _projectService.GetProjectsForUserAsync(userId);
+
+        return Ok(result);
+    }
+
 }

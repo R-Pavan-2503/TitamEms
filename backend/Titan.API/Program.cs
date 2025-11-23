@@ -45,6 +45,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+builder.Services.AddScoped<IProjectService, ProjectService>();
+
 
 
 var app = builder.Build();

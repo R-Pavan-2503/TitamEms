@@ -9,4 +9,6 @@ public interface IProjectService
     public Task<IEnumerable<ProjectDto>> GetAllAsync();
 
     public Task<bool> AssignEmployeeAsync(AssignProjectDto request);
+
+    public Task<IEnumerable<ProjectDto>> GetProjectsForUserAsync(int userId);
 }

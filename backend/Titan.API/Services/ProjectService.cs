@@ -82,4 +82,20 @@ public class ProjectService : IProjectService
 
 
     }
+
+    public async Task<IEnumerable<ProjectDto>> GetProjectsForUserAsync(int userId)
+    {
+        return await _context.ProjectEmployees
+        .Where(pe => pe.EmployeeId == userId)
+        .Select(pe => pe.Project)
+        .Where(p => p != null)
+        .Select(p => new ProjectDto
+        {
+            Id = p!.Id,
+            Name = p.Name,
+            Description = p.Description,
+            CreatedOn = p.CreatedOn
+        })
+        .ToListAsync();
+    }
 }

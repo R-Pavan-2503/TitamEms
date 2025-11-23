@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Titan.API.Data;
+using Titan.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -41,6 +42,11 @@ builder.Services.AddAuthentication(options =>
     });
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -53,7 +59,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.MapControllers();
 
 
 

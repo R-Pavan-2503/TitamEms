@@ -22,7 +22,7 @@ public class ProjectsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateProjectDto request)
     {
-        var result = await  _projectService.CreateAsync(request);
+        var result = await _projectService.CreateAsync(request);
 
         if (result == null) return BadRequest("Invalid Proejct data");
 
@@ -32,7 +32,18 @@ public class ProjectsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var result = await  _projectService.GetAllAsync();
+        var result = await _projectService.GetAllAsync();
         return Ok(result);
+    }
+
+    [HttpPost("assign")]
+
+    public async Task<IActionResult> AssignEmployee(AssignProjectDto request)
+    {
+        var result = await _projectService.AssignEmployeeAsync(request);
+
+        if (!result) return BadRequest("Invalid assignment (Project/User missing or already assigned)");
+
+        return Ok("Employee assigned successfully");
     }
 }

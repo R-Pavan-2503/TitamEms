@@ -1,4 +1,4 @@
-namespace Titan.API.Modles
+namespace Titan.API.Models
 {
     public class User
     {

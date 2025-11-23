@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Titan.API.Data;
 using Titan.API.DTOs;
@@ -49,5 +50,36 @@ public class ProjectService : IProjectService
             CreatedOn = p.CreatedOn
         })
         .ToListAsync();
+    }
+
+    public async Task<bool> AssignEmployeeAsync(AssignProjectDto request)
+    {
+        var projectExists = await _context.Projects.AnyAsync(p => p.Id == request.ProjectId);
+
+        if (!projectExists) return false;
+
+        var employeeExists = await _context.Users.AnyAsync(u => u.Id == request.EmployeeId);
+
+        if (!employeeExists) return false;
+
+        var assignment = new ProjectEmployee
+        {
+            ProjectId = request.ProjectId,
+            EmployeeId = request.EmployeeId,
+            AssignedOn = DateTime.UtcNow
+        };
+
+        try
+        {
+            _context.ProjectEmployees.Add(assignment);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+
+
     }
 }

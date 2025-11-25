@@ -83,6 +83,20 @@ public class ProjectService : IProjectService
 
     }
 
+    public async Task<bool> RemoveEmployeeAsync(AssignProjectDto request)
+    {
+        var assignment = await _context.ProjectEmployees
+    .FirstOrDefaultAsync(pe => pe.ProjectId == request.ProjectId && pe.EmployeeId == request.EmployeeId);
+
+        if (assignment == null) return false;
+
+        _context.ProjectEmployees.Remove(assignment);
+        await _context.SaveChangesAsync();
+
+        return true;
+
+    }
+
     public async Task<IEnumerable<ProjectDto>> GetProjectsForUserAsync(int userId)
     {
         return await _context.ProjectEmployees

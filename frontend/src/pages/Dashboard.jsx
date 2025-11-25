@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import projectService from '../services/projectService';
 import authService from '../services/authService';
-import userService from '../services/userService'; // <--- 1. Import
+import userService from '../services/userService';
 import CreateProjectModal from '../components/CreateProjectModal';
 import AssignEmployeeModal from '../components/AssignEmployeeModal';
-import UpdateUsernameModal from '../components/UpdateUsernameModal'; // <--- 2. Import
+import UpdateUsernameModal from '../components/UpdateUsernameModal';
+import UnassignEmployeeModal from '../components/UnassignEmployeeModal'; // <--- 1. Import
 
 export default function Dashboard() {
     const [projects, setProjects] = useState([]);
@@ -15,7 +16,8 @@ export default function Dashboard() {
     // Modal States
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
-    const [isUsernameModalOpen, setIsUsernameModalOpen] = useState(false); // <--- 3. New State
+    const [isUnassignModalOpen, setIsUnassignModalOpen] = useState(false); // <--- 2. New State
+    const [isUsernameModalOpen, setIsUsernameModalOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -79,14 +81,22 @@ export default function Dashboard() {
         }
     };
 
-    // 4. New Handler: Update Username
+    // 3. New Handler: Unassign
+    const handleUnassignEmployee = async (projectId, employeeId) => {
+        try {
+            await projectService.unassignEmployee(projectId, employeeId);
+            alert("Employee Removed Successfully!");
+            setIsUnassignModalOpen(false);
+        } catch (error) {
+            console.error("Failed to remove", error);
+            alert("Failed to remove employee. (Are they actually assigned to this project?)");
+        }
+    };
+
     const handleUpdateUsername = async (newUsername) => {
         try {
             await userService.updateMyUsername(newUsername);
-
-            // Optimistic UI Update (Shows the new name immediately)
             setUser({ ...user, sub: newUsername });
-
             setIsUsernameModalOpen(false);
             alert("Username Updated Successfully!");
         } catch (error) {
@@ -108,7 +118,6 @@ export default function Dashboard() {
                 <div className="flex items-center gap-4">
                     <h1 className="text-xl font-bold text-blue-600">TitanEMS</h1>
 
-                    {/* User Badge with Edit Button */}
                     {user && (
                         <div className="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-full border">
                             <span className="text-sm font-medium text-gray-700">
@@ -132,7 +141,7 @@ export default function Dashboard() {
                 {isAdmin && (
                     <div className="mb-8 p-6 bg-blue-50 border border-blue-200 rounded-lg">
                         <h2 className="text-xl font-bold text-blue-800 mb-4">Admin Controls</h2>
-                        <div className="flex gap-4">
+                        <div className="flex gap-4 flex-wrap">
                             <button
                                 onClick={() => setIsCreateModalOpen(true)}
                                 className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700"
@@ -144,6 +153,13 @@ export default function Dashboard() {
                                 className="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700"
                             >
                                 + Assign Employee
+                            </button>
+                            {/* 4. New Button: Unassign */}
+                            <button
+                                onClick={() => setIsUnassignModalOpen(true)}
+                                className="bg-red-600 text-white px-4 py-2 rounded shadow hover:bg-red-700"
+                            >
+                                - Remove Employee
                             </button>
                         </div>
                     </div>
@@ -181,7 +197,14 @@ export default function Dashboard() {
                 onSubmit={handleAssignEmployee}
             />
 
-            {/* 5. Render Username Modal */}
+            {/* 5. Render Unassign Modal */}
+            <UnassignEmployeeModal
+                isOpen={isUnassignModalOpen}
+                onClose={() => setIsUnassignModalOpen(false)}
+                projects={projects}
+                onSubmit={handleUnassignEmployee}
+            />
+
             <UpdateUsernameModal
                 isOpen={isUsernameModalOpen}
                 onClose={() => setIsUsernameModalOpen(false)}

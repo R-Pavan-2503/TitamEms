@@ -49,11 +49,22 @@ public class ProjectsController : ControllerBase
         return Ok("Employee assigned successfully");
     }
 
+    [HttpPost("unassign")]
+
+    public async Task<IActionResult> RemoveEmployeeAsync(AssignProjectDto request)
+    {
+        var resposne = await _projectService.RemoveEmployeeAsync(request);
+
+        if (!resposne) return BadRequest("Assignment not found");
+
+        return Ok("Employee removed successfully");
+    }
+
 
     [HttpGet("my-projects")]
     public async Task<IActionResult> GetMyProjects()
     {
-        
+
         var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         if (string.IsNullOrEmpty(userIdString))
@@ -61,7 +72,7 @@ public class ProjectsController : ControllerBase
 
         int userId = int.Parse(userIdString);
 
-        
+
         var result = await _projectService.GetProjectsForUserAsync(userId);
 
         return Ok(result);

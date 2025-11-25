@@ -19,6 +19,11 @@ const projectService = {
         return response.data;
     },
 
+    unassignEmployee: async (projectId, employeeId) => {
+        const response = await api.post('/projects/unassign', { projectId, employeeId });
+        return response.data;
+    },
+
 
     getAllProjects: async () => {
         const response = await api.get('/projects');
